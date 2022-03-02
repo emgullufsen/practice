@@ -2,6 +2,8 @@
 
 #include <string>
 #include <ch1.hpp>
+#include <iterator>
+
 /*
 * 1.1 Implement an algorithm to determine if a string has all unique characters.
 * What if you can not use additional data structures?
@@ -22,7 +24,20 @@ unique_chars(std::string& inp){
 	return true;
 }
 
+/*
+* 1.2 Write code to reverse a C-style string. (C-string means that "abcd" is
+* represented as five characters, including the null character.)
+*/
+
 char *
 reverse_cstr(char *inp){
-	
+	int sz = strlen(inp);
+	int mid = (sz - 1) / 2;
+	char temp;
+	for (int i = 0; i <= mid; ++i){
+		temp = inp[(sz - 1 - i)];
+		inp[(sz - 1 - i)] = inp[i];
+		inp[i] = temp;
+	}
+	return inp;
 }
