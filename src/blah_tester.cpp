@@ -1,11 +1,14 @@
 #include <string>
 #include <iostream>
 
+namespace practice {
+std::string&
+remove_dups(std::string&);
+}
+
 int main(int argc, char **argv){
-	std::string str1 = "eric";
-	std::string str2("ricky");
-	std::cout << str1 << std::endl;
-	std::cout << str2 << std::endl;
+	std::string str1("eric gullufsen");
+	std::cout << practice::remove_dups(str1) << std::endl;
 	return 0;
 }
 

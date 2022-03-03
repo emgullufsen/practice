@@ -44,16 +44,16 @@ reverse_cstr(char *inp){
 }
 
 std::string&
-remove_dups(std::string& inp){
-	int len = inp.length();
-	for (int i = 0; i < len; ++i){
-		for (int j = i + 1; i < len; ++j){
-			if (inp[i] == inp[j]){
-				inp.erase(j,1);
-				--len;
-			}
+remove_dups(std::string& str){
+	for (std::string::size_type i = 0; i < str.size(); ++i){
+		std::string::size_type j = i + 1;
+		while (j < str.size()){
+			if (str[i] == str[j])
+				str.erase(j,1);
+			else
+				++j;
 		}
 	}
-	return inp;
+	return str;
 }
 }
