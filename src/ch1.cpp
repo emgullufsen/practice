@@ -42,4 +42,18 @@ reverse_cstr(char *inp){
 	}
 	return inp;
 }
+
+std::string&
+remove_dups(std::string& inp){
+	int len = inp.length();
+	for (int i = 0; i < len; ++i){
+		for (int j = i + 1; i < len; ++j){
+			if (inp[i] == inp[j]){
+				inp.erase(j,1);
+				--len;
+			}
+		}
+	}
+	return inp;
+}
 }
