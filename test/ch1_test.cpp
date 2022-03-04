@@ -50,6 +50,21 @@ protected:
 	void TearDown() override {}
 };
 
+struct ch1_fix4 : public ::testing::Test {
+	std::vector<std::tuple<std::tuple<std::string, std::string>, bool>> test_data; 
+	ch1_fix4() {
+		test_data.push_back(
+			std::make_tuple(
+				std::make_tuple("eric gullufsen", 
+						"fsgu eienulrlc"),
+				true));
+
+	}
+protected:
+	void SetUp() override {}
+	void TearDown() override {}
+};
+
 TEST_F(ch1_fix1, ch1_q1_unique_chars){
 	EXPECT_EQ(practice::unique_chars(std::get<0>(test_data[0])),
 		std::get<1>(test_data[0]));
@@ -64,5 +79,11 @@ TEST_F(ch1_fix2, ch1_q2_reverse_cstr){
 TEST_F(ch1_fix3, ch1_q3_remove_dups){
 	for (auto [dat,ret] : test_data){
 		EXPECT_EQ(practice::remove_dups(dat), ret);
+	}
+}
+
+TEST_F(ch1_fix4, ch1_q4_anagrams){
+	for (auto& [dat, ret] : test_data){
+		EXPECT_EQ(practice::anagrams(std::get<0>(dat), std::get<1>(dat)), ret);
 	}
 }

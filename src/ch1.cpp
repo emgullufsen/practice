@@ -56,4 +56,21 @@ remove_dups(std::string& str){
 	}
 	return str;
 }
+
+bool
+anagrams(std::string& inp1, std::string& inp2){
+	int num_in1[NUM_ASCII_CHARS] = {};
+	int num_in2[NUM_ASCII_CHARS] = {};
+	for (auto& i : inp1){
+		num_in1[static_cast<uint8_t>(i)]++;
+	}
+	for (auto& i : inp2){
+		num_in2[static_cast<uint8_t>(i)]++;
+	}
+	for (int i = 0; i < NUM_ASCII_CHARS; ++i){
+		if (num_in1[i] != num_in2[i])
+			return false;
+	}
+	return true;
+}
 }
