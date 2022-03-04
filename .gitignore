@@ -1,2 +1,4 @@
 build/
 test/*_ex
+src/*_tester.cpp
+src/*_main.cpp
