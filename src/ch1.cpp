@@ -43,6 +43,10 @@ reverse_cstr(char *inp){
 	return inp;
 }
 
+/*
+* 1.3 Design an algorithm and write code to remove the duplicate characters in a
+* string without using any additional buffer.
+*/
 std::string&
 remove_dups(std::string& str){
 	for (std::string::size_type i = 0; i < str.size(); ++i){
@@ -57,6 +61,9 @@ remove_dups(std::string& str){
 	return str;
 }
 
+/*
+* 1.4 Write a method to decide if two strings are anagrams or not
+*/
 bool
 anagrams(std::string& inp1, std::string& inp2){
 	int num_in1[NUM_ASCII_CHARS] = {};
@@ -72,5 +79,18 @@ anagrams(std::string& inp1, std::string& inp2){
 			return false;
 	}
 	return true;
+}
+
+/*
+* 1.5 Write a method to replace all spaces in a string with '%20'
+*/
+std::string&
+replace_spaces(std::string& inp){
+	std::string p20("%20");
+	for (std::string::size_type i = 0; i < inp.size(); ++i){
+		if (inp[i] == ' ')
+			inp.replace(i,1,p20);
+	}
+	return inp;
 }
 }
