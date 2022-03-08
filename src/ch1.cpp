@@ -86,10 +86,9 @@ anagrams(std::string& inp1, std::string& inp2){
 */
 std::string&
 replace_spaces(std::string& inp){
-	std::string p20("%20");
 	for (std::string::size_type i = 0; i < inp.size(); ++i){
 		if (inp[i] == ' ')
-			inp.replace(i,1,p20);
+			inp.replace(i,1,"%20");
 	}
 	return inp;
 }
