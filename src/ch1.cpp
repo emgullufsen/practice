@@ -1,5 +1,5 @@
 /* Chapter 01 */
-
+#include <cstring>
 #include <string>
 #include <ch1.hpp>
 #include <iterator>
