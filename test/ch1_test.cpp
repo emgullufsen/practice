@@ -5,6 +5,7 @@
 #include <ch1.hpp>
 #include <gtest/gtest.h>
 #include <vector>
+#include <cstddef>
 
 // Test Fixture for unique_chars
 
@@ -80,6 +81,51 @@ protected:
 	void TearDown() override {}
 };
 
+struct ch1_fix6 : public ::testing::Test {
+	std::byte test_data[2][2][4] = { 
+		 { { std::byte{0x00}, 
+		     std::byte{0x01}, 
+		     std::byte{0x03}, 
+		     std::byte{0x04} }, 
+		   { std::byte{0x05}, 
+		     std::byte{0x06}, 
+		     std::byte{0x07}, 
+		     std::byte{0x08} } },
+		 { { std::byte{0x09}, 
+		     std::byte{0x0A}, 
+		     std::byte{0x0B}, 
+		     std::byte{0x0C} }, { 
+		     std::byte{0x0D}, 
+		     std::byte{0x0E}, 
+		     std::byte{0x0F}, 
+		     std::byte{0x10} } }
+	};
+	std::byte test_data_r[2][2][4] = {
+		 { { std::byte{0x09}, 
+		     std::byte{0x0A}, 
+		     std::byte{0x0B}, 
+		     std::byte{0x0C} }, { 
+		     std::byte{0x00}, 
+		     std::byte{0x01}, 
+		     std::byte{0x03}, 
+		     std::byte{0x04} } },
+		 { { std::byte{0x0D}, 
+		     std::byte{0x0E}, 
+		     std::byte{0x0F}, 
+		     std::byte{0x10} }, { 
+		     std::byte{0x05}, 
+		     std::byte{0x06}, 
+		     std::byte{0x07}, 
+		     std::byte{0x08} } }
+	};
+	ch1_fix6() {
+
+	}
+protected:
+	void SetUp() override {}
+	void TearDown() override {}
+};
+
 TEST_F(ch1_fix1, ch1_q1_unique_chars){
 	EXPECT_EQ(practice::unique_chars(std::get<0>(test_data[0])),
 		std::get<1>(test_data[0]));
@@ -107,4 +153,9 @@ TEST_F(ch1_fix5, ch1_q5_replace_spaces){
 	for (auto& [dat, ret] : test_data){
 		EXPECT_EQ(practice::replace_spaces(dat), ret);
 	}
+}
+
+TEST_F(ch1_fix6, ch1_q6_rotate_90){
+	practice::rotate_90(test_data);
+	EXPECT_EQ(test_data, test_data_r);
 }

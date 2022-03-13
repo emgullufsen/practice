@@ -3,6 +3,7 @@
 #include <string>
 #include <ch1.hpp>
 #include <iterator>
+#include <cstddef>
 
 /*
 * 1.1 Implement an algorithm to determine if a string has all unique characters.
@@ -98,6 +99,16 @@ replace_spaces(std::string& inp){
 * is 4 bytes, write a method to rotate the image by 90 degrees. Can you do this
 * in place?
 */
-
+template<size_t N>
+void
+rotate_90(std::byte in_matrix[N][N][4]){
+	for (int i = 0; i < N; ++i){
+		for (int j = 0; j < N; ++j){
+			for (int u = 0; u < 4; ++u){
+				in_matrix[i][j][u] = in_matrix[N - j][i][u];
+			}
+		}
+	}
+}
 
 } // namespace practice
