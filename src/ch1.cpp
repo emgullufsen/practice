@@ -98,10 +98,10 @@ replace_spaces(std::string& inp){
 * 1.6 Given an image represented by an NxN matrix, where each pixel in the image
 * is 4 bytes, write a method to rotate the image by 90 degrees. Can you do this
 * in place?
-*/
-template<size_t N>
+
+template<int N>
 void
-rotate_90(std::byte in_matrix[N][N][4]){
+rotate_90(std::byte *in_matrix[N][4]){
 	for (int i = 0; i < N; ++i){
 		for (int j = 0; j < N; ++j){
 			for (int u = 0; u < 4; ++u){
@@ -110,5 +110,7 @@ rotate_90(std::byte in_matrix[N][N][4]){
 		}
 	}
 }
+
+*/
 
 } // namespace practice

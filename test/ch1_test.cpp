@@ -157,5 +157,12 @@ TEST_F(ch1_fix5, ch1_q5_replace_spaces){
 
 TEST_F(ch1_fix6, ch1_q6_rotate_90){
 	practice::rotate_90(test_data);
-	EXPECT_EQ(test_data, test_data_r);
+	for (int i = 0; i < 2; ++i){
+		for (int j = 0; j < 2; ++j){
+			for (int u = 0; u < 4; ++u){
+				EXPECT_EQ(test_data[i][j][u],
+				test_data_r[i][j][u]);
+			}
+		}
+	}
 }
