@@ -1,5 +1,6 @@
 #include <string>
 #include <cstddef>
+#include <vector>
 namespace practice {
 #define NUM_ASCII_CHARS 256
 bool unique_chars(std::string&);
@@ -26,4 +27,6 @@ rotate_90(std::byte (&in_matrix)[N][N][4]){
 		}
 	}
 }
+using matrix = std::vector<std::vector<int>>;
+void row_col_zero(matrix&);
 }

@@ -126,6 +126,22 @@ protected:
 	void TearDown() override {}
 };
 
+struct ch1_fix7 : public ::testing::Test {
+	practice::matrix test_data = { {1,0,1,1}, 
+						 {1,1,1,1}, 
+						 {1,1,1,0}, 
+						 {1,1,1,1} };
+	practice::matrix test_data_c = { {0,0,0,0}, 
+						   {1,0,1,0}, 
+						   {0,0,0,0}, 
+						   {1,0,1,0} };
+	ch1_fix7() {
+	}
+protected:
+	void SetUp() override {}
+	void TearDown() override {}
+};
+
 TEST_F(ch1_fix1, ch1_q1_unique_chars){
 	EXPECT_EQ(practice::unique_chars(std::get<0>(test_data[0])),
 		std::get<1>(test_data[0]));
@@ -165,4 +181,14 @@ TEST_F(ch1_fix6, ch1_q6_rotate_90){
 			}
 		}
 	}
+}
+
+TEST_F(ch1_fix7, ch1_fix7_row_col_zero){
+	practice::row_col_zero(test_data);
+	for (int i; i < test_data.size(); ++i){
+		for (int j; j < test_data[i].size(); ++j){
+			EXPECT_EQ(test_data[i][j], test_data_c[i][j]);
+		}
+	}
+	
 }

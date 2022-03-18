@@ -4,6 +4,8 @@
 #include <ch1.hpp>
 #include <iterator>
 #include <cstddef>
+#include <vector>
+#include <set>
 
 /*
 * 1.1 Implement an algorithm to determine if a string has all unique characters.
@@ -95,22 +97,38 @@ replace_spaces(std::string& inp){
 }
 
 /*
-* 1.6 Given an image represented by an NxN matrix, where each pixel in the image
-* is 4 bytes, write a method to rotate the image by 90 degrees. Can you do this
-* in place?
+* 1.6 is in header file ch1.hpp (unspecialized templated function)
+*/
 
-template<int N>
+/*
+* 1.7 Write an algorithm such that if an element in an MxN matrix is 0, its
+* entire row and column is set to 0.
+*/
+
 void
-rotate_90(std::byte *in_matrix[N][4]){
-	for (int i = 0; i < N; ++i){
-		for (int j = 0; j < N; ++j){
-			for (int u = 0; u < 4; ++u){
-				in_matrix[i][j][u] = in_matrix[N - j][i][u];
+row_col_zero(matrix& in_matrix){
+	std::set<int> zero_rows;
+	std::set<int> zero_cols;
+	for (int i = 0; i < in_matrix.size(); ++i){
+		for (int j = 0; j < in_matrix[i].size(); ++j){
+			if (in_matrix[i][j] == 0){
+				zero_rows.insert(i);
+				zero_cols.insert(j);
 			}
 		}
 	}
-}
 
-*/
+	for (auto& r: zero_rows){
+		for (int jc = 0; jc < in_matrix[r].size(); ++jc){
+			in_matrix[r][jc] = 0;
+		}
+	}
+
+	for (auto& c: zero_cols){
+		for (int ic = 0; ic < in_matrix.size(); ++ic){
+			in_matrix[ic][c] = 0;
+		}
+	}
+}
 
 } // namespace practice
