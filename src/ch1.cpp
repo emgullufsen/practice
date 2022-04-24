@@ -131,4 +131,19 @@ row_col_zero(matrix& in_matrix){
 	}
 }
 
+bool
+sub_str(std::string& str1, std::string& str2){
+	std::string::size_type f = str2.find(str1);
+	if (f == std::string::npos){
+		return false;
+	}
+	return true;
+}
+
+bool
+is_rotation(std::string& s1, std::string& s2){
+	std::string s2_dub = (s2 + s2);
+	return ((s1.length() <= s2.length()) && sub_str(s1,s2_dub));
+}
+
 } // namespace practice

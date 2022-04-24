@@ -142,6 +142,21 @@ protected:
 	void TearDown() override {}
 };
 
+struct ch1_fix8 : public ::testing::Test {
+	std::vector<std::tuple<std::tuple<std::string, std::string>, bool>> test_data; 
+	ch1_fix8() {
+		test_data.push_back(
+			std::make_tuple(
+				std::make_tuple("eric", 
+						"icer"),
+				true));
+
+	}
+protected:
+	void SetUp() override {}
+	void TearDown() override {}
+};
+
 TEST_F(ch1_fix1, ch1_q1_unique_chars){
 	EXPECT_EQ(practice::unique_chars(std::get<0>(test_data[0])),
 		std::get<1>(test_data[0]));
@@ -191,4 +206,10 @@ TEST_F(ch1_fix7, ch1_fix7_row_col_zero){
 		}
 	}
 	
+}
+
+TEST_F(ch1_fix8, ch1_q8_is_rotation){
+	for (auto& [dat, ret] : test_data){
+		EXPECT_EQ(practice::is_rotation(std::get<0>(dat), std::get<1>(dat)), ret);
+	}
 }
