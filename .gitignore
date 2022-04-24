@@ -4,3 +4,4 @@ src/*_tester.cpp
 src/*_main.cpp
 *.exe
 .vscode/
+googletest/

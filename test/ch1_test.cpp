@@ -200,8 +200,8 @@ TEST_F(ch1_fix6, ch1_q6_rotate_90){
 
 TEST_F(ch1_fix7, ch1_fix7_row_col_zero){
 	practice::row_col_zero(test_data);
-	for (int i; i < test_data.size(); ++i){
-		for (int j; j < test_data[i].size(); ++j){
+	for (int i = 0; i < test_data.size(); ++i){
+		for (int j = 0; j < test_data[i].size(); ++j){
 			EXPECT_EQ(test_data[i][j], test_data_c[i][j]);
 		}
 	}
