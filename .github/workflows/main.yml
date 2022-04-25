@@ -7,5 +7,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run build and test script (shell)
-        run: |
-	  echo "hey" 
+        run: echo "hey" 
