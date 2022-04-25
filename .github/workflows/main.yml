@@ -1,10 +1,6 @@
 jobs:
   build-and-test:
     steps:
-      - run: |
-        git clone https://github.com/google/googletest.git
-	mkdir build
-	cd build
-	cmake ..
-	make
-	./practiceUT
+      - name: Run build and test script (shell)
+        run: ./.github/scripts/build-and-test.sh
+	shell: bash
