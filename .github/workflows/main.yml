@@ -1,6 +1,8 @@
 on:
   push:
-    branches: [ cmake-and-ci main ]
+    branches:
+      - main
+      - cmake-and-ci
 
 jobs:
   build-and-test:
