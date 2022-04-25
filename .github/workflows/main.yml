@@ -2,5 +2,4 @@ jobs:
   build-and-test:
     steps:
       - name: Run build and test script (shell)
-        run: echo "hey" #./.github/scripts/build-and-test.sh
-	#shell: bash
+        run: echo "hey" 
