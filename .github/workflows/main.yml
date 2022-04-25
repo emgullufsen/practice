@@ -7,4 +7,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run build and test script (shell)
-        run: ls -pal .github/scripts #./.github/scripts/build-and-test.sh
+        run: ls -pal #./.github/scripts/build-and-test.sh
