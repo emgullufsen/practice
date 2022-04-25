@@ -1,3 +1,7 @@
+on:
+  push:
+    branches: [ cmake-and-ci ]
+
 jobs:
   build-and-test:
     steps:
