@@ -4,17 +4,18 @@
 namespace ll {
 
 template<typename T>
-class LLNode<T> {
+class LLNode {
 public:
+	LLNode(T val) : data(val), next(nullptr), prev(nullptr) {}
 	LLNode<T> *next, *prev;
 	T data;
 }
 
 template<typename T>
-class LList<T> {
+class LList {
 public:
+	LList() : head(nullptr) {}
 	LLNode<T> *head;
-	LList<T>();
 	insert_node(LLNode<T>);
 }
 #endif
