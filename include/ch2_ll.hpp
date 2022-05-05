@@ -68,10 +68,11 @@ void LList<T>::delete_node(LLNode<T>* lln){
 
 template<typename T>
 void LList<T>::remove_dups(LLNode<T>* lln, T val){
+	auto llnn = lln->next;
 	if (lln->data == val){
-		auto llnn = lln->next;
 		this->delete_node(lln);
 	}
+
 	if (llnn == nullptr)
 		return;
 	
