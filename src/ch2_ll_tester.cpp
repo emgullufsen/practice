@@ -19,6 +19,10 @@ int main(int argc, char **argv){
 		x = x->next;
 	}
 
+	printf("using print_nodes\n");
+
+	li->print_nodes();
+
 	return 0;
 
 }
