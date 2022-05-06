@@ -9,7 +9,7 @@ namespace ll {
 template<std::equality_comparable T>
 class LLNode {
 public:
-	LLNode(T val) : data(val), next(nullptr), prev(nullptr) {}
+	LLNode(T val) : next(nullptr), prev(nullptr), data(val) {}
 	LLNode<T> *next, *prev;
 	T data;
 };
@@ -72,13 +72,13 @@ void LList<T>::delete_node(LLNode<T>* lln){
 
 template<std::equality_comparable T>
 void LList<T>::remove_dups(LLNode<T>* lln, T val){
+	if (lln == nullptr)
+		return;
+
 	auto llnn = lln->next;
 	if (lln->data == val){
 		this->delete_node(lln);
 	}
-
-	if (llnn == nullptr)
-		return;
 	
 	this->remove_dups(llnn, val);
 }
@@ -86,7 +86,7 @@ void LList<T>::remove_dups(LLNode<T>* lln, T val){
 template<std::equality_comparable T>
 void LList<T>::remove_dups(){
 	auto n = this->head;
-	while (n->next != nullptr) {
+	while (n != nullptr) {
 		this->remove_dups(n->next, n->data);
 		n = n->next;
 	}
@@ -98,7 +98,7 @@ template<std::equality_comparable T>
 void LList<T>::print_nodes() {}
 
 template<>
-void LList<int>::print_nodes(){
+inline void LList<int>::print_nodes(){
 	auto x = this->head;
 	while(x != nullptr){
 		printf("data = %d\n", x->data);
