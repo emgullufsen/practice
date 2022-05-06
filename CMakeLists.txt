@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(practice_COMPILER_OPTIONS_CLANG -g -fcolor-diagnostics -Wall -Werror
 -std=c++20)
 
+set(practice_COMPILER_OPTIONS_GNU -Wall -g -fdiagnostic-color=always -Werror -std=c++2a)
+
 # executable is called practiceUT (Unit Test)
 add_executable(practiceUT
 	${CMAKE_CURRENT_SOURCE_DIR}/src/ch1.cpp
