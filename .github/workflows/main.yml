@@ -3,6 +3,7 @@ on:
     branches:
       - main
       - cmake-and-ci
+      - ll2
 
 jobs:
   build-and-test:
