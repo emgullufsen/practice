@@ -2,10 +2,11 @@
 #define CHAPTER_TWO_LL_H
 
 #include <stdio.h>
+#include <concepts>
 
 namespace ll {
 
-template<typename T>
+template<std::equality_comparable T>
 class LLNode {
 public:
 	LLNode(T val) : data(val), next(nullptr), prev(nullptr) {}
@@ -13,7 +14,7 @@ public:
 	T data;
 };
 
-template<typename T>
+template<std::equality_comparable T>
 class LList {
 public:
 	LList() : head(nullptr) {}
@@ -25,7 +26,7 @@ public:
 	void print_nodes();
 };
 
-template<typename T>
+template<std::equality_comparable T>
 void LList<T>::insert_node(LLNode<T>* lln){
 	if (this->head == nullptr){
 		this->head = lln;
@@ -40,7 +41,7 @@ void LList<T>::insert_node(LLNode<T>* lln){
 	lln->next = nullptr; // ensure for sanity
 }
 
-template<typename T>
+template<std::equality_comparable T>
 void LList<T>::delete_node(LLNode<T>* lln){
 	if (this->head == nullptr)
 		return;
@@ -66,7 +67,7 @@ void LList<T>::delete_node(LLNode<T>* lln){
 	}
 }
 
-template<typename T>
+template<std::equality_comparable T>
 void LList<T>::remove_dups(LLNode<T>* lln, T val){
 	auto llnn = lln->next;
 	if (lln->data == val){
@@ -79,7 +80,7 @@ void LList<T>::remove_dups(LLNode<T>* lln, T val){
 	this->remove_dups(llnn, val);
 }
 
-template<typename T>
+template<std::equality_comparable T>
 void LList<T>::remove_dups(){
 	auto n = this->head;
 	while (n->next != nullptr) {
@@ -90,7 +91,7 @@ void LList<T>::remove_dups(){
 }
 
 // default impl
-template<typename T>
+template<std::equality_comparable T>
 void LList<T>::print_nodes() {}
 
 template<>
