@@ -10,7 +10,9 @@ set(practice_COMPILER_OPTIONS_CLANG -fcolor-diagnostics -Wall -Werror
 # executable is called practiceUT (Unit Test)
 add_executable(practiceUT
 	${CMAKE_CURRENT_SOURCE_DIR}/src/ch1.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/ch2.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test/ch1_test.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/test/ch2_test.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test/main_test.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/src/gtest-all.cc)
 
