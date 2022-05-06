@@ -38,6 +38,7 @@ void LList<T>::insert_node(LLNode<T>* lln){
 		llc = llc->next;
 	}
 	llc->next = lln;
+	lln->prev = llc;
 	lln->next = nullptr; // ensure for sanity
 }
 
@@ -59,8 +60,10 @@ void LList<T>::delete_node(LLNode<T>* lln){
 	auto n = this->head;
 	while (n != nullptr) {
 		if (n == lln) {
-			n->prev->next = n->next;
-			n->next->prev = n->prev;
+			if (n->prev != nullptr)
+				n->prev->next = n->next;
+			if (n->next != nullptr)
+				n->next->prev = n->prev;
 			return;
 		}
 		n = n->next;
@@ -84,7 +87,7 @@ template<std::equality_comparable T>
 void LList<T>::remove_dups(){
 	auto n = this->head;
 	while (n->next != nullptr) {
-		this->remove_dups(n->next, n.data);
+		this->remove_dups(n->next, n->data);
 		n = n->next;
 	}
 	return;
