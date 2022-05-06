@@ -11,4 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run build and test script (shell)
-        run: ./.github/scripts/build-and-test.sh
+      - run: sudo apt update && sudo apt install g++-10
+      - run: ./.github/scripts/build-and-test.sh
+        env:
+          CXX: g++-10
