@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <concepts>
+#include <iostream>
 
 namespace ll {
 
@@ -17,29 +18,34 @@ public:
 template<std::equality_comparable T>
 class LList {
 public:
-	LList() : head(nullptr) {}
+	LList() : head(nullptr), length(0) {}
 	LLNode<T> *head;
+	int length;
 	void insert_node(LLNode<T> *);
 	void delete_node(LLNode<T>*);
 	void remove_dups(LLNode<T>*, T);
 	void remove_dups();
 	void print_nodes();
+	LLNode<T> operator[](int);
+	LLNode<T> nth_last(int);
 };
 
 template<std::equality_comparable T>
 void LList<T>::insert_node(LLNode<T>* lln){
 	if (this->head == nullptr){
 		this->head = lln;
-		return;
+	} else {
+		LLNode<T> *llc = this->head;
+		while (llc->next != nullptr){
+			llc = llc->next;
+		}
+		llc->next = lln;
+		lln->prev = llc;
+		lln->next = nullptr; // ensure for sanity
 	}
+	++this->length;
+	return;
 	
-	LLNode<T> *llc = this->head;
-	while (llc->next != nullptr){
-		llc = llc->next;
-	}
-	llc->next = lln;
-	lln->prev = llc;
-	lln->next = nullptr; // ensure for sanity
 }
 
 template<std::equality_comparable T>
@@ -49,12 +55,12 @@ void LList<T>::delete_node(LLNode<T>* lln){
 	if (this->head == lln){
 		if (this->head->next == nullptr){
 			this->head = nullptr;
-			return;
 		}
 		else {
 			this->head = this->head->next;
-			return;
 		}
+		--this->length;
+		return;
 	}
 
 	auto n = this->head;
@@ -64,6 +70,7 @@ void LList<T>::delete_node(LLNode<T>* lln){
 				n->prev->next = n->next;
 			if (n->next != nullptr)
 				n->next->prev = n->prev;
+			--this->length;
 			return;
 		}
 		n = n->next;
@@ -107,5 +114,35 @@ inline void LList<int>::print_nodes(){
 	return;
 }
 
+template<std::equality_comparable T>
+LLNode<T> LList<T>::operator[](int index)
+{
+    if (index >= length) {
+        std::cout << "Array index out of bound, exiting\n";
+        exit(0);
+    } 
+
+    LLNode<T> *ret = this->head;
+    while (index > 0) {
+	    ret = ret->next;
+	    --index;
+    }
+    return *ret;
+}
+
+template<std::equality_comparable T>
+LLNode<T> LList<T>::nth_last(int n){
+	if (n > (length - 1)) {
+		std::cout << "too far back in array index, exiting\n";
+		exit(0);
+	}
+	int i = (length - n - 1);
+	LLNode<T> *ret = this->head;
+	while (i > 0) {
+		ret = ret->next;
+		--i;
+	}
+	return *ret;
+}
 }
 #endif
