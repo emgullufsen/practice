@@ -32,17 +32,18 @@ public:
 };
 
 template<std::equality_comparable T>
-void LList<T>::~LList() {
+LList<T>::~LList() {
 	if (head == nullptr)
 		return;
 
 	LLNode<T> *tmp;
 	LLNode<T> *n = head;
 	while (n != nullptr) {
-		tmp = n;
+		tmp = n->next;
 		delete n;
-		n = tmp->next;
+		n = tmp;
 	}
+	return;
 }
 
 template<std::equality_comparable T>

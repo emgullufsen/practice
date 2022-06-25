@@ -106,6 +106,5 @@ TEST_F(ch2_fix2, ch2_q2_test_index_operator){
 }
 
 TEST_F(ch2_fix2, ch2_q2_nth_last){
-	test_data.print_nodes();
 	EXPECT_EQ(test_data.nth_last(6).data, 223);			
 }
