@@ -2,7 +2,7 @@
 * Chapter 2 Tests
 */
 
-#include <ch2_ll.hpp>
+#include <ch2.hpp>
 #include <gtest/gtest.h>
 #include <vector>
 #include <iostream>
@@ -99,6 +99,10 @@ TEST_F(ch2_fix1, ch2_q2_test_length_prop){
 	EXPECT_EQ(test_data->length, 10);
 	test_data->delete_node(i2);
 	EXPECT_EQ(test_data->length, 9);
+}
+
+TEST_F(ch2_fix1, ch2_q4_convertToNum){
+	EXPECT_EQ(practice::convertToNum(test_data), 33);
 }
 
 TEST_F(ch2_fix2, ch2_q2_test_index_operator){

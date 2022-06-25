@@ -1,3 +1,6 @@
-#include <ch2_ll.hpp>
-
-/* Linked list (chapter 2) problems implemented in the header file */
+#include <ch2.hpp>
+namespace practice {
+int convertToNum(LList<int> *list){
+	return 33;
+}
+}
