@@ -12,12 +12,16 @@ using namespace ll;
 // Test Fixture for remove_dups
 struct ch2_fix1 : public ::testing::Test {
 	ll::LList<int> *test_data;
+	LList<int> *td2;
+	LLNode<int> *tdn0 = new LLNode<int>(2);
+	LLNode<int> *tdn1 = new LLNode<int>(1);
+	LLNode<int> *tdn2 = new LLNode<int>(3);
 	ll::LLNode<int> *i0 = new LLNode<int>(20);
 	ll::LLNode<int> *i1 = new LLNode<int>(21);
 	ll::LLNode<int> *i2 = new LLNode<int>(22);
 	std::vector<int> test_compare = { 0, 1, 2, 3, 4 };
 	ch2_fix1() {
-        LLNode<int> *a0 = new LLNode<int>(0);
+        	LLNode<int> *a0 = new LLNode<int>(0);
 		LLNode<int> *a1 = new LLNode<int>(1);
 		LLNode<int> *a2 = new LLNode<int>(2);
 		LLNode<int> *a3 = new LLNode<int>(3);
@@ -27,6 +31,10 @@ struct ch2_fix1 : public ::testing::Test {
 		LLNode<int> *a7 = new LLNode<int>(1);
 		LLNode<int> *a8 = new LLNode<int>(2);
 		test_data = new LList<int>;
+		td2 = new LList<int>;
+		td2->insert_node(tdn2);
+		td2->insert_node(tdn1);
+		td2->insert_node(tdn0);
 		test_data->insert_node(a0);
 		test_data->insert_node(a1);
 		test_data->insert_node(a2);
@@ -102,7 +110,7 @@ TEST_F(ch2_fix1, ch2_q2_test_length_prop){
 }
 
 TEST_F(ch2_fix1, ch2_q4_convertToNum){
-	EXPECT_EQ(practice::convertToNum(test_data), 33);
+	EXPECT_EQ(practice::convertToNum(td2), 213);
 }
 
 TEST_F(ch2_fix2, ch2_q2_test_index_operator){
