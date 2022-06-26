@@ -5,4 +5,5 @@ using namespace ll;
 
 namespace practice {
 int convertToNum(LList<int> *);
+LList<int>* convertToLList(int);
 }

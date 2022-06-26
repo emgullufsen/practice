@@ -112,6 +112,11 @@ TEST_F(ch2_fix1, ch2_q2_test_length_prop){
 TEST_F(ch2_fix1, ch2_q4_convertToNum){
 	EXPECT_EQ(practice::convertToNum(td2), 213);
 }
+TEST_F(ch2_fix1, ch2_q4_convertToLList){
+	//LList<int> *p = practice::convertToLList(213);
+	//p->print_nodes();
+	EXPECT_EQ(practice::convertToNum(practice::convertToLList(213)), 213);
+}
 
 TEST_F(ch2_fix2, ch2_q2_test_index_operator){
 	EXPECT_EQ(test_data[2].data, 223);			
