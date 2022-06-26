@@ -13,11 +13,11 @@ int convertToNum(LList<int> *list){
 }
 LList<int>* convertToLList(int ins){
 	LList<int> *ret = new LList<int>();
-	int tmp = ins % 10;
+	int tmp;
 	while (ins) {
-		ins /= 10;
-		ret->insert_node(new LLNode<int>(tmp));
 		tmp = ins % 10;
+		ret->insert_node(new LLNode<int>(tmp));
+		ins /= 10;
 	}
 	return ret;
 }
