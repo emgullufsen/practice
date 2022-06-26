@@ -11,11 +11,16 @@ using namespace ll;
 
 // Test Fixture for remove_dups
 struct ch2_fix1 : public ::testing::Test {
+	int intz = 789;
 	ll::LList<int> *test_data;
 	LList<int> *td2;
 	LLNode<int> *tdn0 = new LLNode<int>(2);
 	LLNode<int> *tdn1 = new LLNode<int>(1);
 	LLNode<int> *tdn2 = new LLNode<int>(3);
+	LList<int> *td3;
+	LLNode<int> *tdn30 = new LLNode<int>(5);
+	LLNode<int> *tdn31 = new LLNode<int>(9);
+	LLNode<int> *tdn32 = new LLNode<int>(4);
 	ll::LLNode<int> *i0 = new LLNode<int>(20);
 	ll::LLNode<int> *i1 = new LLNode<int>(21);
 	ll::LLNode<int> *i2 = new LLNode<int>(22);
@@ -35,6 +40,10 @@ struct ch2_fix1 : public ::testing::Test {
 		td2->insert_node(tdn2);
 		td2->insert_node(tdn1);
 		td2->insert_node(tdn0);
+		td3 = new LList<int>;
+		td3->insert_node(tdn32);
+		td3->insert_node(tdn31);
+		td3->insert_node(tdn30);
 		test_data->insert_node(a0);
 		test_data->insert_node(a1);
 		test_data->insert_node(a2);
@@ -113,9 +122,10 @@ TEST_F(ch2_fix1, ch2_q4_convertToNum){
 	EXPECT_EQ(practice::convertToNum(td2), 213);
 }
 TEST_F(ch2_fix1, ch2_q4_convertToLList){
-	//LList<int> *p = practice::convertToLList(213);
-	//p->print_nodes();
 	EXPECT_EQ(practice::convertToNum(practice::convertToLList(213)), 213);
+}
+TEST_F(ch2_fix1, ch2_q4_addLListNums){
+	EXPECT_EQ(practice::convertToNum(practice::addLListNums(td2,td3)), 807);
 }
 
 TEST_F(ch2_fix2, ch2_q2_test_index_operator){
