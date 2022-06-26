@@ -19,6 +19,7 @@ template<std::equality_comparable T>
 class LList {
 public:
 	LList() : head(nullptr), length(0) {}
+	~LList();
 	LLNode<T> *head;
 	int length;
 	void insert_node(LLNode<T> *);
@@ -29,6 +30,21 @@ public:
 	LLNode<T> operator[](int);
 	LLNode<T> nth_last(int);
 };
+
+template<std::equality_comparable T>
+LList<T>::~LList() {
+	if (head == nullptr)
+		return;
+
+	LLNode<T> *tmp;
+	LLNode<T> *n = head;
+	while (n != nullptr) {
+		tmp = n->next;
+		delete n;
+		n = tmp;
+	}
+	return;
+}
 
 template<std::equality_comparable T>
 void LList<T>::insert_node(LLNode<T>* lln){
