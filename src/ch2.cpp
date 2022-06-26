@@ -2,13 +2,10 @@
 #include <math.h>
 namespace practice {
 int convertToNum(LList<int> *list){
-	int s = list->length;
-	int c = 0;
-	int r = 0;
+	int s = list->length, c = 0, r = 0;
 	LList<int> tmp = *list;
-	while (s > 0){
+	while (s - c > 0){
 		r += tmp[c].data * pow(10, c);
-		--s;
 		++c;
 	}
 	return r;
