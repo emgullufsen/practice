@@ -13,7 +13,15 @@ public:
 	LLNode(T val) : next(nullptr), prev(nullptr), data(val) {}
 	LLNode<T> *next, *prev;
 	T data;
+	void remove_from_list();
 };
+
+template<std::equality_comparable T>
+LLNode<T>::remove_from_list() {
+	next->prev = prev;
+	prev->next = next;
+	return;
+}
 
 template<std::equality_comparable T>
 class LList {
@@ -28,6 +36,7 @@ public:
 	void remove_dups();
 	void print_nodes();
 	LLNode<T> operator[](int);
+	bool operator=(LList<T>)
 	LLNode<T> nth_last(int);
 };
 

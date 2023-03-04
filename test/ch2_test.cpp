@@ -118,6 +118,10 @@ TEST_F(ch2_fix1, ch2_q2_test_length_prop){
 	EXPECT_EQ(test_data->length, 9);
 }
 
+TEST_F(ch2_fix1, ch2_q3_test_remove_from_list){
+	
+}
+
 TEST_F(ch2_fix1, ch2_q4_convertToNum){
 	EXPECT_EQ(practice::convertToNum(td2), 213);
 }
