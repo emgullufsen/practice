@@ -10,9 +10,8 @@ namespace ll {
 template<std::equality_comparable T>
 class LLNode {
 public:
-	LLNode(T val) : parent_list(nullptr), next(nullptr), prev(nullptr), data(val) {}
+	LLNode(T val) : next(nullptr), prev(nullptr), data(val) {}
 	LLNode<T> *next, *prev;
-	LList<T> *parent_list;
 	T data;
 	void remove_from_list();
 };
@@ -21,17 +20,17 @@ template<std::equality_comparable T>
 void LLNode<T>::remove_from_list() {
 	next->prev = prev;
 	prev->next = next;
-	
+
 	return;
 }
 
 template<std::equality_comparable T>
 class LList {
 public:
-	LList() : head(nullptr), length(0) {}
+	LList() : head(nullptr) {}
 	~LList();
 	LLNode<T> *head;
-	int length;
+	int length();
 	void insert_node(LLNode<T> *);
 	void delete_node(LLNode<T>*);
 	void remove_dups(LLNode<T>*, T);
@@ -41,6 +40,17 @@ public:
 	bool operator==(LList<T>&);
 	LLNode<T> nth_last(int);
 };
+
+template<std::equality_comparable T>
+int LList<T>::length() {
+	LLNode<T> *element = this->head;
+	int r = 0;
+	while (element != nullptr){
+		element = element->next;
+		r++;
+	}
+	return r;
+}
 
 template<std::equality_comparable T>
 LList<T>::~LList() {
@@ -70,8 +80,7 @@ void LList<T>::insert_node(LLNode<T>* lln){
 		lln->prev = llc;
 		lln->next = nullptr; // ensure for sanity
 	}
-	lln->parent_list = this;
-	++this->length;
+	//++this->length;
 	return;
 	
 }
@@ -87,7 +96,7 @@ void LList<T>::delete_node(LLNode<T>* lln){
 		else {
 			this->head = this->head->next;
 		}
-		--this->length;
+		//--this->length;
 		return;
 	}
 
@@ -98,7 +107,7 @@ void LList<T>::delete_node(LLNode<T>* lln){
 				n->prev->next = n->next;
 			if (n->next != nullptr)
 				n->next->prev = n->prev;
-			--this->length;
+			//--this->length;
 			return;
 		}
 		n = n->next;
@@ -145,7 +154,7 @@ inline void LList<int>::print_nodes(){
 template<std::equality_comparable T>
 LLNode<T> LList<T>::operator[](int index)
 {
-    if (index >= length) {
+    if (index >= this->length()) {
         std::cout << "Array index out of bound, exiting\n";
         exit(0);
     } 
@@ -162,12 +171,12 @@ template<std::equality_comparable T>
 bool LList<T>::operator==(LList<T> &rhs)
 {
 	std::cout << "HEY FROM == OPERATOR!!!\n";
-	if (this->length != rhs.length){
+	if (this->length() != rhs.length()){
 		std::cout << "NOPE FOR LENGTH\n";
 		return false;
 	}
 
-	for (int c = 0; c < this->length; c++){
+	for (int c = 0; c < this->length(); c++){
 		if ((*this)[c].data != rhs[c].data){
 			std::cout << "NOPE FOR DATA!!\n";
 			return false;
@@ -180,11 +189,11 @@ bool LList<T>::operator==(LList<T> &rhs)
 
 template<std::equality_comparable T>
 LLNode<T> LList<T>::nth_last(int n){
-	if (n > (length - 1)) {
+	if (n > (length() - 1)) {
 		std::cout << "too far back in array index, exiting\n";
 		exit(0);
 	}
-	int i = (length - n - 1);
+	int i = (length() - n - 1);
 	LLNode<T> *ret = this->head;
 	while (i > 0) {
 		ret = ret->next;

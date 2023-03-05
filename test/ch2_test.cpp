@@ -127,19 +127,19 @@ TEST_F(ch2_fix1, ch2_q1_remove_dups){
 }
 
 TEST_F(ch2_fix1, ch2_q2_test_length_prop){
-	EXPECT_EQ(test_data->length, 9);
+	EXPECT_EQ(test_data->length(), 9);
 	test_data->insert_node(i0);
-	EXPECT_EQ(test_data->length, 10);
+	EXPECT_EQ(test_data->length(), 10);
 	test_data->insert_node(i1);
-	EXPECT_EQ(test_data->length, 11);
+	EXPECT_EQ(test_data->length(), 11);
 	test_data->insert_node(i2);
-	EXPECT_EQ(test_data->length, 12);
+	EXPECT_EQ(test_data->length(), 12);
 	test_data->delete_node(i0);
-	EXPECT_EQ(test_data->length, 11);
+	EXPECT_EQ(test_data->length(), 11);
 	test_data->delete_node(i1);
-	EXPECT_EQ(test_data->length, 10);
+	EXPECT_EQ(test_data->length(), 10);
 	test_data->delete_node(i2);
-	EXPECT_EQ(test_data->length, 9);
+	EXPECT_EQ(test_data->length(), 9);
 }
 
 TEST_F(ch2_fix3, ch2_q3_test_remove_from_list){
