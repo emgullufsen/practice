@@ -10,16 +10,18 @@ namespace ll {
 template<std::equality_comparable T>
 class LLNode {
 public:
-	LLNode(T val) : next(nullptr), prev(nullptr), data(val) {}
+	LLNode(T val) : parent_list(nullptr), next(nullptr), prev(nullptr), data(val) {}
 	LLNode<T> *next, *prev;
+	LList<T> *parent_list;
 	T data;
 	void remove_from_list();
 };
 
 template<std::equality_comparable T>
-LLNode<T>::remove_from_list() {
+void LLNode<T>::remove_from_list() {
 	next->prev = prev;
 	prev->next = next;
+	
 	return;
 }
 
@@ -36,7 +38,7 @@ public:
 	void remove_dups();
 	void print_nodes();
 	LLNode<T> operator[](int);
-	bool operator=(LList<T>)
+	bool operator==(LList<T>&);
 	LLNode<T> nth_last(int);
 };
 
@@ -68,6 +70,7 @@ void LList<T>::insert_node(LLNode<T>* lln){
 		lln->prev = llc;
 		lln->next = nullptr; // ensure for sanity
 	}
+	lln->parent_list = this;
 	++this->length;
 	return;
 	
@@ -154,6 +157,26 @@ LLNode<T> LList<T>::operator[](int index)
     }
     return *ret;
 }
+
+template<std::equality_comparable T>
+bool LList<T>::operator==(LList<T> &rhs)
+{
+	std::cout << "HEY FROM == OPERATOR!!!\n";
+	if (this->length != rhs.length){
+		std::cout << "NOPE FOR LENGTH\n";
+		return false;
+	}
+
+	for (int c = 0; c < this->length; c++){
+		if ((*this)[c].data != rhs[c].data){
+			std::cout << "NOPE FOR DATA!!\n";
+			return false;
+		}
+	}
+
+	return true;
+}
+
 
 template<std::equality_comparable T>
 LLNode<T> LList<T>::nth_last(int n){

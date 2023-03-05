@@ -90,6 +90,30 @@ protected:
 	void TearDown() override {}
 };
 
+struct ch2_fix3 : public ::testing::Test {
+	LLNode<int> *nodes[4];
+	LList<int> *test_data;
+	LList<int> *test_data_compare;
+	ch2_fix3() {
+			test_data = new LList<int>();
+			test_data_compare = new LList<int>();
+			size_t sn = sizeof(nodes) / sizeof(typeof(nodes[0]));
+			printf("sn = %ld\n", sn);
+			for (int c = 0; c < sn; c++){
+				nodes[c] = new LLNode<int>(c);
+				test_data->insert_node(nodes[c]);
+				if (c != 2){
+					std::cout << "INSERTING\n";
+					test_data_compare->insert_node(nodes[c]);
+				}
+			}
+
+	}
+protected:
+	void SetUp() override {}
+	void TearDown() override {}
+};
+
 TEST_F(ch2_fix1, ch2_q1_remove_dups){
 	test_data->remove_dups();
 	int counter = 0;
@@ -118,8 +142,15 @@ TEST_F(ch2_fix1, ch2_q2_test_length_prop){
 	EXPECT_EQ(test_data->length, 9);
 }
 
-TEST_F(ch2_fix1, ch2_q3_test_remove_from_list){
-	
+TEST_F(ch2_fix3, ch2_q3_test_remove_from_list){
+	nodes[2]->remove_from_list();
+	std::cout << "test_data:\n";
+	test_data->print_nodes();
+	std::cout << "test_data_compare:\n";
+	printf("glagla = %d\n", (*test_data == *test_data_compare));
+	test_data_compare->print_nodes();
+	bool z = (*test_data == *test_data_compare);
+	EXPECT_EQ(z, true);
 }
 
 TEST_F(ch2_fix1, ch2_q4_convertToNum){
@@ -137,5 +168,6 @@ TEST_F(ch2_fix2, ch2_q2_test_index_operator){
 }
 
 TEST_F(ch2_fix2, ch2_q2_nth_last){
+	std::cout << "HEYO\n";
 	EXPECT_EQ(test_data.nth_last(6).data, 223);			
 }
