@@ -154,33 +154,41 @@ inline void LList<int>::print_nodes(){
 template<std::equality_comparable T>
 LLNode<T> LList<T>::operator[](int index)
 {
-    if (index >= this->length()) {
-        std::cout << "Array index out of bound, exiting\n";
-        exit(0);
-    } 
+    // if (index >= this->length()) {
+    //     std::cout << "Array index out of bound, exiting\n";
+    //     exit(0);
+    // } 
 
     LLNode<T> *ret = this->head;
-    while (index > 0) {
+    while (index > 0 && ret != nullptr) {
 	    ret = ret->next;
 	    --index;
     }
+	if (index != 0){
+		throw std::out_of_range("Index out of the ol bounds!");
+	}
     return *ret;
 }
 
 template<std::equality_comparable T>
 bool LList<T>::operator==(LList<T> &rhs)
 {
-	std::cout << "HEY FROM == OPERATOR!!!\n";
-	if (this->length() != rhs.length()){
-		std::cout << "NOPE FOR LENGTH\n";
-		return false;
-	}
-
-	for (int c = 0; c < this->length(); c++){
+	LLNode<T> *lhs_e = this->head; 
+	LLNode<T> *rhs_e = rhs.head;
+	int c = 0;
+	
+	while (lhs_e != nullptr && rhs_e != nullptr){
 		if ((*this)[c].data != rhs[c].data){
-			std::cout << "NOPE FOR DATA!!\n";
 			return false;
 		}
+		++c;
+		lhs_e = lhs_e->next;
+		rhs_e = rhs_e->next;
+	}
+
+	if (lhs_e != nullptr){
+		std::cout << "NOPE FOR LENGTH!\n";
+		return false;
 	}
 
 	return true;

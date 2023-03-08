@@ -7,6 +7,8 @@
 #include <vector>
 #include <iostream>
 
+#define NUM_NODES 4
+
 using namespace ll;
 
 // Test Fixture for remove_dups
@@ -91,20 +93,22 @@ protected:
 };
 
 struct ch2_fix3 : public ::testing::Test {
-	LLNode<int> *nodes[4];
+	LLNode<int> *nodes_td[NUM_NODES];
+	LLNode<int> *nodes_tdc[NUM_NODES];
 	LList<int> *test_data;
 	LList<int> *test_data_compare;
 	ch2_fix3() {
 			test_data = new LList<int>();
 			test_data_compare = new LList<int>();
-			size_t sn = sizeof(nodes) / sizeof(typeof(nodes[0]));
+			size_t sn = sizeof(nodes_td) / sizeof(typeof(nodes_td[0]));
 			printf("sn = %ld\n", sn);
 			for (int c = 0; c < sn; c++){
-				nodes[c] = new LLNode<int>(c);
-				test_data->insert_node(nodes[c]);
+				nodes_td[c] = new LLNode<int>(c);
+				nodes_tdc[c] = new LLNode<int>(c);
+				test_data->insert_node(nodes_td[c]);
 				if (c != 2){
-					std::cout << "INSERTING\n";
-					test_data_compare->insert_node(nodes[c]);
+					std::cout << "INSERTING and c = " << c << "\n";
+					test_data_compare->insert_node(nodes_tdc[c]);
 				}
 			}
 
@@ -143,7 +147,13 @@ TEST_F(ch2_fix1, ch2_q2_test_length_prop){
 }
 
 TEST_F(ch2_fix3, ch2_q3_test_remove_from_list){
-	nodes[2]->remove_from_list();
+	std::cout << "test_data:\n";
+	test_data->print_nodes();
+	std::cout << "test_data_compare:\n";
+	test_data_compare->print_nodes();
+	bool a = (*test_data == *test_data_compare);
+	EXPECT_EQ(a, false);
+	nodes_td[2]->remove_from_list();
 	std::cout << "test_data:\n";
 	test_data->print_nodes();
 	std::cout << "test_data_compare:\n";
