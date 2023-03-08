@@ -186,8 +186,7 @@ bool LList<T>::operator==(LList<T> &rhs)
 		rhs_e = rhs_e->next;
 	}
 
-	if (lhs_e != nullptr){
-		std::cout << "NOPE FOR LENGTH!\n";
+	if (lhs_e != nullptr || rhs_e != nullptr){
 		return false;
 	}
 
@@ -197,16 +196,17 @@ bool LList<T>::operator==(LList<T> &rhs)
 
 template<std::equality_comparable T>
 LLNode<T> LList<T>::nth_last(int n){
-	if (n > (length() - 1)) {
-		std::cout << "too far back in array index, exiting\n";
-		exit(0);
-	}
 	int i = (length() - n - 1);
 	LLNode<T> *ret = this->head;
-	while (i > 0) {
+	while (i > 0 && ret != nullptr) {
 		ret = ret->next;
 		--i;
 	}
+
+	if (i != 0){
+		throw std::out_of_range("Index out of bounds, partner...\n");
+	}
+
 	return *ret;
 }
 }

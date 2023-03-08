@@ -95,11 +95,14 @@ protected:
 struct ch2_fix3 : public ::testing::Test {
 	LLNode<int> *nodes_td[NUM_NODES];
 	LLNode<int> *nodes_tdc[NUM_NODES];
+	LLNode<int> *nodes_big[NUM_NODES + 1];
 	LList<int> *test_data;
 	LList<int> *test_data_compare;
+	LList<int> *test_data_big;
 	ch2_fix3() {
 			test_data = new LList<int>();
 			test_data_compare = new LList<int>();
+			test_data_big = new LList<int>();
 			size_t sn = sizeof(nodes_td) / sizeof(typeof(nodes_td[0]));
 			printf("sn = %ld\n", sn);
 			for (int c = 0; c < sn; c++){
@@ -110,6 +113,11 @@ struct ch2_fix3 : public ::testing::Test {
 					std::cout << "INSERTING and c = " << c << "\n";
 					test_data_compare->insert_node(nodes_tdc[c]);
 				}
+			}
+
+			for (int d = 0; d < (NUM_NODES +1); d++){
+				nodes_big[d] = new LLNode<int>(d);
+				test_data_big->insert_node(nodes_big[d]);
 			}
 
 	}
@@ -146,23 +154,6 @@ TEST_F(ch2_fix1, ch2_q2_test_length_prop){
 	EXPECT_EQ(test_data->length(), 9);
 }
 
-TEST_F(ch2_fix3, ch2_q3_test_remove_from_list){
-	std::cout << "test_data:\n";
-	test_data->print_nodes();
-	std::cout << "test_data_compare:\n";
-	test_data_compare->print_nodes();
-	bool a = (*test_data == *test_data_compare);
-	EXPECT_EQ(a, false);
-	nodes_td[2]->remove_from_list();
-	std::cout << "test_data:\n";
-	test_data->print_nodes();
-	std::cout << "test_data_compare:\n";
-	printf("glagla = %d\n", (*test_data == *test_data_compare));
-	test_data_compare->print_nodes();
-	bool z = (*test_data == *test_data_compare);
-	EXPECT_EQ(z, true);
-}
-
 TEST_F(ch2_fix1, ch2_q4_convertToNum){
 	EXPECT_EQ(practice::convertToNum(td2), 213);
 }
@@ -174,10 +165,22 @@ TEST_F(ch2_fix1, ch2_q4_addLListNums){
 }
 
 TEST_F(ch2_fix2, ch2_q2_test_index_operator){
-	EXPECT_EQ(test_data[2].data, 223);			
+	EXPECT_EQ(test_data[2].data, 223);
+	EXPECT_THROW(test_data[200], std::out_of_range);			
 }
 
 TEST_F(ch2_fix2, ch2_q2_nth_last){
-	std::cout << "HEYO\n";
-	EXPECT_EQ(test_data.nth_last(6).data, 223);			
+	EXPECT_EQ(test_data.nth_last(6).data, 223);
+	EXPECT_THROW(test_data.nth_last(200), std::out_of_range);		
 }
+
+TEST_F(ch2_fix3, ch2_q3_test_remove_from_list){
+	bool a = (*test_data == *test_data_compare);
+	EXPECT_EQ(a, false);
+	bool b = (*test_data == *test_data_big);
+	EXPECT_EQ(b, false);
+	nodes_td[2]->remove_from_list();
+	bool z = (*test_data == *test_data_compare);
+	EXPECT_EQ(z, true);
+}
+
