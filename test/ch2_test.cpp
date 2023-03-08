@@ -104,13 +104,11 @@ struct ch2_fix3 : public ::testing::Test {
 			test_data_compare = new LList<int>();
 			test_data_big = new LList<int>();
 			size_t sn = sizeof(nodes_td) / sizeof(typeof(nodes_td[0]));
-			printf("sn = %ld\n", sn);
 			for (int c = 0; c < sn; c++){
 				nodes_td[c] = new LLNode<int>(c);
 				nodes_tdc[c] = new LLNode<int>(c);
 				test_data->insert_node(nodes_td[c]);
 				if (c != 2){
-					std::cout << "INSERTING and c = " << c << "\n";
 					test_data_compare->insert_node(nodes_tdc[c]);
 				}
 			}
