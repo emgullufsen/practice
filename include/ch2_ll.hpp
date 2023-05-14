@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <concepts>
 #include <iostream>
+#include <iterator>
+#include <cstddef>
 
 namespace ll {
 
@@ -39,7 +41,27 @@ public:
 	LLNode<T> operator[](int);
 	bool operator==(LList<T>&);
 	LLNode<T> nth_last(int);
+	bool already_linked(LLNode<T> *);
+	struct Iterator {
+		using iterator_category = std::forward_iterator_tag;
+		using difference_type 	= std::ptrdiff_t;
+		using value_type 		= LLNode<T>;
+		using pointer 			= LLNode<T>*;
+		using reference 		= LLNode<T>&;
+	}
 };
+
+template<std::equality_comparable T>
+bool already_linked(LLNode<T> *n){
+	LLNode<T> *element = this->head;
+	while (element != nullptr){
+		if (element == n){
+			return true;
+		}
+		element = element->next;
+	}
+	return false;
+}
 
 template<std::equality_comparable T>
 int LList<T>::length() {
