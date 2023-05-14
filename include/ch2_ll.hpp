@@ -29,9 +29,11 @@ void LLNode<T>::remove_from_list() {
 template<std::equality_comparable T>
 class LList {
 public:
-	LList() : head(nullptr) {}
+	LList() : head(nullptr), _length(0) {}
 	~LList();
 	LLNode<T> *head;
+	LLNode<T> *tail;
+	int cheap_length();
 	int length();
 	void insert_node(LLNode<T> *);
 	void delete_node(LLNode<T>*);
@@ -48,11 +50,35 @@ public:
 		using value_type 		= LLNode<T>;
 		using pointer 			= LLNode<T>*;
 		using reference 		= LLNode<T>&;
+
+		Iterator(pointer ptr) : node_ptr(ptr) , head(ptr) {}
+
+		reference operator*() const { return node_ptr; }
+		pointer operator->() { return node_ptr; }
+		// prefix
+		Iterator& operator++() 
+		// postfix 
+		Iterator operator++(int) { Iterator tmp = *this; (*this) = this->next; return tmp; }
+        friend bool operator== (const Iterator& a, const Iterator& b) { return a.node_ptr == b.node_ptr; };
+        friend bool operator!= (const Iterator& a, const Iterator& b) { return a.node_ptr != b.node_ptr; }; 
+	private:
+		pointer node_ptr;
+		pointer head;
 	}
+
+	Iterator begin() { return Iterator(&head); }
+	Iterator end() { }
+private:
+	int _length;
 };
 
 template<std::equality_comparable T>
-bool already_linked(LLNode<T> *n){
+int LList<T>::cheap_length(){
+	return _length;
+}
+
+template<std::equality_comparable T>
+bool LList<T>::already_linked(LLNode<T> *n){
 	LLNode<T> *element = this->head;
 	while (element != nullptr){
 		if (element == n){
@@ -93,6 +119,7 @@ template<std::equality_comparable T>
 void LList<T>::insert_node(LLNode<T>* lln){
 	if (this->head == nullptr){
 		this->head = lln;
+		this->tail = lln;
 	} else {
 		LLNode<T> *llc = this->head;
 		while (llc->next != nullptr){
@@ -102,7 +129,9 @@ void LList<T>::insert_node(LLNode<T>* lln){
 		lln->prev = llc;
 		lln->next = nullptr; // ensure for sanity
 	}
-	//++this->length;
+	
+	this->tail = lln;
+	++this->_length;
 	return;
 	
 }
@@ -111,6 +140,9 @@ template<std::equality_comparable T>
 void LList<T>::delete_node(LLNode<T>* lln){
 	if (this->head == nullptr)
 		return;
+	if (this->tail == lln){
+		this->tail == this->tail->prev;
+	}
 	if (this->head == lln){
 		if (this->head->next == nullptr){
 			this->head = nullptr;
@@ -118,7 +150,7 @@ void LList<T>::delete_node(LLNode<T>* lln){
 		else {
 			this->head = this->head->next;
 		}
-		//--this->length;
+		--this->_length;
 		return;
 	}
 
@@ -129,7 +161,7 @@ void LList<T>::delete_node(LLNode<T>* lln){
 				n->prev->next = n->next;
 			if (n->next != nullptr)
 				n->next->prev = n->prev;
-			//--this->length;
+			--this->_length;
 			return;
 		}
 		n = n->next;
