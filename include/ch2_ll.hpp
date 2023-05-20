@@ -6,6 +6,7 @@
 #include <iostream>
 #include <iterator>
 #include <cstddef>
+#include <list>
 
 namespace ll {
 
@@ -30,6 +31,7 @@ template<std::equality_comparable T>
 class LList {
 public:
 	LList() : head(nullptr), _length(0) {}
+	LList(std::list<T>);
 	~LList();
 	LLNode<T> *head;
 	LLNode<T> *tail;
@@ -44,6 +46,8 @@ public:
 	bool operator==(LList<T>&);
 	LLNode<T> nth_last(int);
 	bool already_linked(LLNode<T> *);
+	
+	// iterator implementation
 	struct Iterator {
 		using iterator_category = std::forward_iterator_tag;
 		using difference_type 	= std::ptrdiff_t;
@@ -53,20 +57,20 @@ public:
 
 		Iterator(pointer ptr) : node_ptr(ptr) {}
 
-		reference operator*() const { return node_ptr; }
+		reference operator*() const { return *node_ptr; }
 		pointer operator->() { return node_ptr; }
 		// prefix
-		Iterator& operator++() 
+		Iterator& operator++() { node_ptr = node_ptr->next; return *this; } ;
 		// postfix 
-		Iterator operator++(int) { Iterator tmp = *this; (*this) = this->next; return tmp; }
+		Iterator operator++(int) { Iterator tmp = *this; ++(*this); return tmp; }
         friend bool operator== (const Iterator& a, const Iterator& b) { return a.node_ptr == b.node_ptr; };
         friend bool operator!= (const Iterator& a, const Iterator& b) { return a.node_ptr != b.node_ptr; }; 
 	private:
 		pointer node_ptr;
-	}
+	};
 
-	Iterator begin() { return Iterator(&head); }
-	Iterator end() { }
+	Iterator begin() { return Iterator(head); }
+	Iterator end() { return Iterator(this->tail->next); }
 private:
 	int _length;
 };
@@ -97,6 +101,14 @@ int LList<T>::length() {
 		r++;
 	}
 	return r;
+}
+
+template<std::equality_comparable T>
+LList<T>::LList(std::list<T> l){
+	for (T x: l){
+		LLNode<T> *n = new LLNode<T>(x);
+		this->insert_node(n);
+	}
 }
 
 template<std::equality_comparable T>

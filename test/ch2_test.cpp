@@ -152,3 +152,11 @@ TEST_F(ch2_fix3, ch2_q3_test_remove_from_list){
 	EXPECT_EQ(z, true);
 }
 
+TEST_F(ch2_fix3, ch2_llist_iterator){
+	// testing iterator
+	std::cout << "*****PRINTING USING ITERATOR*****" << std::endl;
+	for (auto i: *test_data){
+		std::cout << std::to_string(i.data) << std::endl;
+	}
+}
+
