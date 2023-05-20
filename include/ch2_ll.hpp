@@ -51,7 +51,7 @@ public:
 		using pointer 			= LLNode<T>*;
 		using reference 		= LLNode<T>&;
 
-		Iterator(pointer ptr) : node_ptr(ptr) , head(ptr) {}
+		Iterator(pointer ptr) : node_ptr(ptr) {}
 
 		reference operator*() const { return node_ptr; }
 		pointer operator->() { return node_ptr; }
@@ -63,7 +63,6 @@ public:
         friend bool operator!= (const Iterator& a, const Iterator& b) { return a.node_ptr != b.node_ptr; }; 
 	private:
 		pointer node_ptr;
-		pointer head;
 	}
 
 	Iterator begin() { return Iterator(&head); }
