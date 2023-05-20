@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <concepts>
 #include <iostream>
+#include <iterator>
+#include <cstddef>
+#include <list>
 
 namespace ll {
 
@@ -13,23 +16,100 @@ public:
 	LLNode(T val) : next(nullptr), prev(nullptr), data(val) {}
 	LLNode<T> *next, *prev;
 	T data;
+	void remove_from_list();
 };
+
+template<std::equality_comparable T>
+void LLNode<T>::remove_from_list() {
+	next->prev = prev;
+	prev->next = next;
+
+	return;
+}
 
 template<std::equality_comparable T>
 class LList {
 public:
-	LList() : head(nullptr), length(0) {}
+	LList() : head(nullptr), _length(0) {}
+	LList(std::list<T>);
 	~LList();
 	LLNode<T> *head;
-	int length;
+	LLNode<T> *tail;
+	int cheap_length();
+	int length();
 	void insert_node(LLNode<T> *);
 	void delete_node(LLNode<T>*);
 	void remove_dups(LLNode<T>*, T);
 	void remove_dups();
 	void print_nodes();
 	LLNode<T> operator[](int);
+	bool operator==(LList<T>&);
 	LLNode<T> nth_last(int);
+	bool already_linked(LLNode<T> *);
+	
+	// iterator implementation
+	struct Iterator {
+		using iterator_category = std::forward_iterator_tag;
+		using difference_type 	= std::ptrdiff_t;
+		using value_type 		= LLNode<T>;
+		using pointer 			= LLNode<T>*;
+		using reference 		= LLNode<T>&;
+
+		Iterator(pointer ptr) : node_ptr(ptr) {}
+
+		reference operator*() const { return *node_ptr; }
+		pointer operator->() { return node_ptr; }
+		// prefix
+		Iterator& operator++() { node_ptr = node_ptr->next; return *this; } ;
+		// postfix 
+		Iterator operator++(int) { Iterator tmp = *this; ++(*this); return tmp; }
+        friend bool operator== (const Iterator& a, const Iterator& b) { return a.node_ptr == b.node_ptr; };
+        friend bool operator!= (const Iterator& a, const Iterator& b) { return a.node_ptr != b.node_ptr; }; 
+	private:
+		pointer node_ptr;
+	};
+
+	Iterator begin() { return Iterator(head); }
+	Iterator end() { return Iterator(this->tail->next); }
+private:
+	int _length;
 };
+
+template<std::equality_comparable T>
+int LList<T>::cheap_length(){
+	return _length;
+}
+
+template<std::equality_comparable T>
+bool LList<T>::already_linked(LLNode<T> *n){
+	LLNode<T> *element = this->head;
+	while (element != nullptr){
+		if (element == n){
+			return true;
+		}
+		element = element->next;
+	}
+	return false;
+}
+
+template<std::equality_comparable T>
+int LList<T>::length() {
+	LLNode<T> *element = this->head;
+	int r = 0;
+	while (element != nullptr){
+		element = element->next;
+		r++;
+	}
+	return r;
+}
+
+template<std::equality_comparable T>
+LList<T>::LList(std::list<T> l){
+	for (T x: l){
+		LLNode<T> *n = new LLNode<T>(x);
+		this->insert_node(n);
+	}
+}
 
 template<std::equality_comparable T>
 LList<T>::~LList() {
@@ -50,6 +130,7 @@ template<std::equality_comparable T>
 void LList<T>::insert_node(LLNode<T>* lln){
 	if (this->head == nullptr){
 		this->head = lln;
+		this->tail = lln;
 	} else {
 		LLNode<T> *llc = this->head;
 		while (llc->next != nullptr){
@@ -59,7 +140,9 @@ void LList<T>::insert_node(LLNode<T>* lln){
 		lln->prev = llc;
 		lln->next = nullptr; // ensure for sanity
 	}
-	++this->length;
+	
+	this->tail = lln;
+	++this->_length;
 	return;
 	
 }
@@ -68,6 +151,9 @@ template<std::equality_comparable T>
 void LList<T>::delete_node(LLNode<T>* lln){
 	if (this->head == nullptr)
 		return;
+	if (this->tail == lln){
+		this->tail == this->tail->prev;
+	}
 	if (this->head == lln){
 		if (this->head->next == nullptr){
 			this->head = nullptr;
@@ -75,7 +161,7 @@ void LList<T>::delete_node(LLNode<T>* lln){
 		else {
 			this->head = this->head->next;
 		}
-		--this->length;
+		--this->_length;
 		return;
 	}
 
@@ -86,7 +172,7 @@ void LList<T>::delete_node(LLNode<T>* lln){
 				n->prev->next = n->next;
 			if (n->next != nullptr)
 				n->next->prev = n->prev;
-			--this->length;
+			--this->_length;
 			return;
 		}
 		n = n->next;
@@ -133,31 +219,59 @@ inline void LList<int>::print_nodes(){
 template<std::equality_comparable T>
 LLNode<T> LList<T>::operator[](int index)
 {
-    if (index >= length) {
-        std::cout << "Array index out of bound, exiting\n";
-        exit(0);
-    } 
+    // if (index >= this->length()) {
+    //     std::cout << "Array index out of bound, exiting\n";
+    //     exit(0);
+    // } 
 
     LLNode<T> *ret = this->head;
-    while (index > 0) {
+    while (index > 0 && ret != nullptr) {
 	    ret = ret->next;
 	    --index;
     }
+	if (index != 0){
+		throw std::out_of_range("Index out of the ol bounds!");
+	}
     return *ret;
 }
 
 template<std::equality_comparable T>
-LLNode<T> LList<T>::nth_last(int n){
-	if (n > (length - 1)) {
-		std::cout << "too far back in array index, exiting\n";
-		exit(0);
+bool LList<T>::operator==(LList<T> &rhs)
+{
+	LLNode<T> *lhs_e = this->head; 
+	LLNode<T> *rhs_e = rhs.head;
+	int c = 0;
+	
+	while (lhs_e != nullptr && rhs_e != nullptr){
+		if ((*this)[c].data != rhs[c].data){
+			return false;
+		}
+		++c;
+		lhs_e = lhs_e->next;
+		rhs_e = rhs_e->next;
 	}
-	int i = (length - n - 1);
+
+	if (lhs_e != nullptr || rhs_e != nullptr){
+		return false;
+	}
+
+	return true;
+}
+
+
+template<std::equality_comparable T>
+LLNode<T> LList<T>::nth_last(int n){
+	int i = (length() - n - 1);
 	LLNode<T> *ret = this->head;
-	while (i > 0) {
+	while (i > 0 && ret != nullptr) {
 		ret = ret->next;
 		--i;
 	}
+
+	if (i != 0){
+		throw std::out_of_range("Index out of bounds, partner...\n");
+	}
+
 	return *ret;
 }
 }
