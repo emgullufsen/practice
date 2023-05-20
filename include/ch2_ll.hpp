@@ -32,6 +32,7 @@ class LList {
 public:
 	LList() : head(nullptr), _length(0) {}
 	LList(std::list<T>);
+	LList(T[], size_t);
 	~LList();
 	LLNode<T> *head;
 	LLNode<T> *tail;
@@ -104,9 +105,17 @@ int LList<T>::length() {
 }
 
 template<std::equality_comparable T>
-LList<T>::LList(std::list<T> l){
+LList<T>::LList(std::list<T> l) : LList<T>::LList() {
 	for (T x: l){
 		LLNode<T> *n = new LLNode<T>(x);
+		this->insert_node(n);
+	}
+}
+
+template<std::equality_comparable T>
+LList<T>::LList(T l[], size_t s) : LList<T>::LList() {
+	for (int c = 0; c < s; c++){
+		LLNode<T> *n = new LLNode<T>(l[c]);
 		this->insert_node(n);
 	}
 }
@@ -219,11 +228,6 @@ inline void LList<int>::print_nodes(){
 template<std::equality_comparable T>
 LLNode<T> LList<T>::operator[](int index)
 {
-    // if (index >= this->length()) {
-    //     std::cout << "Array index out of bound, exiting\n";
-    //     exit(0);
-    // } 
-
     LLNode<T> *ret = this->head;
     while (index > 0 && ret != nullptr) {
 	    ret = ret->next;

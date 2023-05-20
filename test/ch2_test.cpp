@@ -13,34 +13,23 @@ using namespace ll;
 
 // Test Fixture for remove_dups
 struct ch2_fix1 : public ::testing::Test {
-	ll::LList<int> *test_data;
-	LList<int> *td2;
-	LLNode<int> *tdn0 = new LLNode<int>(2);
-	LLNode<int> *tdn1 = new LLNode<int>(1);
-	LLNode<int> *tdn2 = new LLNode<int>(3);
-	LList<int> *td3;
-	LLNode<int> *tdn30 = new LLNode<int>(5);
-	LLNode<int> *tdn31 = new LLNode<int>(9);
-	LLNode<int> *tdn32 = new LLNode<int>(4);
-	ll::LLNode<int> *i0 = new LLNode<int>(20);
-	ll::LLNode<int> *i1 = new LLNode<int>(21);
-	ll::LLNode<int> *i2 = new LLNode<int>(22);
-	std::vector<int> test_compare = { 0, 1, 2, 3, 4 };
-	ch2_fix1() {
-		td2 = new LList<int>;
-		td2->insert_node(tdn2);
-		td2->insert_node(tdn1);
-		td2->insert_node(tdn0);
-		td3 = new LList<int>;
-		td3->insert_node(tdn32);
-		td3->insert_node(tdn31);
-		td3->insert_node(tdn30);
+	LList<int> *test_data, *td2, *td3;
 
+	LLNode<int> *i0 = new LLNode<int>(20);
+	LLNode<int> *i1 = new LLNode<int>(21);
+	LLNode<int> *i2 = new LLNode<int>(22);
+	
+	std::vector<int> test_compare = { 0, 1, 2, 3, 4 };
+	
+	ch2_fix1() {
 		int test_data_arr[9] = {0,1,2,3,3,4,4,1,2};
-		test_data = new LList<int>;
-		for (const auto &s: test_data_arr){
-			test_data->insert_node(new LLNode<int>(s));
-		}
+		test_data = new LList<int>(test_data_arr, sizeof(test_data_arr) / sizeof(int));
+
+		int td2_arr[3] = {3,1,2};
+		td2 = new LList<int>(td2_arr, sizeof(td2_arr) / sizeof(int));
+		
+		int td3_arr[3] = {4,9,5};
+		td3 = new LList<int>(td3_arr, sizeof(td3_arr) / sizeof(int));
 	}
 protected:
 	void SetUp() override {}
