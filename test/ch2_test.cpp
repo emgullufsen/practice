@@ -7,7 +7,7 @@
 #include <iostream>
 #include <vector>
 
-#define NUM_NODES 4
+#define NUM_NODES 5
 
 using namespace ll;
 
@@ -58,18 +58,23 @@ struct ch2_fix3 : public ::testing::Test {
   LLNode<int> *nodes_td[NUM_NODES];
   LLNode<int> *nodes_tdc[NUM_NODES];
   LLNode<int> *nodes_big[NUM_NODES + 1];
+  LLNode<int> *nodes_loop[NUM_NODES];
   LList<int> *test_data;
   LList<int> *test_data_compare;
   LList<int> *test_data_big;
+  LList<int> *test_data_loop;
   ch2_fix3() {
     test_data = new LList<int>();
     test_data_compare = new LList<int>();
     test_data_big = new LList<int>();
+	test_data_loop = new LList<int>();
     size_t sn = sizeof(nodes_td) / sizeof(typeof(nodes_td[0]));
     for (int c = 0; c < sn; c++) {
       nodes_td[c] = new LLNode<int>(c);
       nodes_tdc[c] = new LLNode<int>(c);
+	  nodes_loop[c] = new LLNode<int>(c);
       test_data->insert_node(nodes_td[c]);
+	  test_data_loop->insert_node(nodes_loop[c]);
       if (c != 2) {
         test_data_compare->insert_node(nodes_tdc[c]);
       }
@@ -149,4 +154,12 @@ TEST_F(ch2_fix3, ch2_llist_iterator) {
   for (auto i : *test_data) {
     std::cout << std::to_string(i.data) << std::endl;
   }
+}
+
+TEST_F(ch2_fix3, ch2_q5_find_loop_beginning) {
+	LLNode<int> *last = test_data_loop->tail;
+	LLNode<int> middle = ((*test_data_loop)[NUM_NODES / 2]);
+	last->next = &middle;
+	LLNode<int> *u = find_loop_beginning(test_data_loop);
+	EXPECT_EQ(u->data, 2);
 }

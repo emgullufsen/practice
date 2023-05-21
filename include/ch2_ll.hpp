@@ -40,6 +40,7 @@ public:
   void remove_dups(LLNode<T> *, T);
   void remove_dups();
   void print_nodes();
+  bool contains(T);
   LLNode<T> operator[](int);
   bool operator==(LList<T> &);
   LLNode<T> nth_last(int);
@@ -88,6 +89,39 @@ private:
 
 template <std::equality_comparable T> int LList<T>::cheap_length() {
   return _length;
+}
+
+template <std::equality_comparable T>
+LLNode<T>* find_loop_beginning(LList<T> *llist) {
+	LList<LLNode<T> *> *s = new LList<LLNode<T> *>();
+	LLNode<T> *i = llist->head;
+	while (i != nullptr){
+		LLNode<LLNode<T> *> *n = new LLNode<LLNode<T> *>(i);
+		if (s->contains(i->next)){
+			return i;
+		}
+		else {
+			s->insert_node(n);
+		}
+		
+		i = i->next;
+	}
+	return nullptr;
+	
+}
+
+template <std::equality_comparable T>
+bool LList<T>::contains(T x){
+	LLNode<T> *element = this->head;
+	while (element != nullptr) {
+		if (element->data == x) {
+			return true;
+		}
+		else {
+			element = element->next;
+		}
+	}
+	return false;
 }
 
 template <std::equality_comparable T>
